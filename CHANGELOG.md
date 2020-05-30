@@ -3,6 +3,7 @@
 ### 1.3.1
 
 * first extended version
+* changes to init.rb
 * added wiki toolbar to todo list description
 * modifications of sortable behavior
 * added "Add" button for items (just in case)
