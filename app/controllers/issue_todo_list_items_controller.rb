@@ -30,9 +30,32 @@ class IssueTodoListItemsController < ApplicationController
     end
   end
 
+  def show
+    @item = IssueTodoListItem.find(params[:id])
+
+    respond_to do |format|
+      format.json { render json: @item }
+    end
+  end
+
   def destroy
     @item = IssueTodoListItem.find(params[:id])
     @item.destroy
+    find_todo_list # Refresh last updated box
+
+    respond_to do |format|
+      format.js {
+        @todo_list_items = @todo_list.issue_todo_list_items
+        @issue_query = IssueQuery.new
+        render :create
+      }
+    end
+  end
+
+  def update
+    @item = IssueTodoListItem.find(params[:id])
+    @item.comment = params[:item][:comment]
+    @item.save
     find_todo_list # Refresh last updated box
 
     respond_to do |format|

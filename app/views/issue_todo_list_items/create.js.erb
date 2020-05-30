@@ -5,4 +5,7 @@ $('#show-right-box').html('<%= escape_javascript(render :partial => 'issue_todo_
   $('#item_issue_id').val('');
   $('#item_issue_id').focus();
   $('#item_comment').val('');
+  $('#update_issue_todo_list_items_wrapper').hide();
+  $('#update_issue_todo_list_items textarea').val('');
+  $('#update_issue_todo_list_items textarea').removeData('changed');
 <% end %>

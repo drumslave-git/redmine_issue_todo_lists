@@ -14,3 +14,4 @@
     <%= submit_tag params[:action] == 'edit' ? l(:button_save) : l(:button_create) %>
   <% end %>
 </div>
+<%= wikitoolbar_for 'issue_todo_list_description', preview_issue_path(:project_id => @project.id, :id => 'new') %>

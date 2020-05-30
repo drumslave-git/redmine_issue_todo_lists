@@ -1,13 +1,28 @@
-<% @todo_list_items.each do |item| %>
+<% @todo_list_items.each_with_index do |item, itemIdx| %>
   <tr id="issue-todo-list-item-<%= item.id %>" class="<%= cycle 'odd', 'even' %>">
+    <td class="issue-todo-list-item-order">
+      <%= item.position %>
+    </td>
     <% @issue_query.columns.each do |column| %>
       <% unless item.issue.nil? %>
         <td class="<%= column.name.to_s %>"><%= column_content(column, item.issue) %></td>
       <% end %>
     <% end %>
     <td <%= item.issue.nil? ? "colspan=#{@issue_query.columns.count + 1}" : '' %>>
-      <%= item.comment %>
+      <div class="wiki">
+        <%= textilizable(item.comment) %>
+      </div>
     </td>
+    <% if User.current.allowed_to?(:update_issue_todo_list_items, @project) %>
+      <td>
+        <%= link_to image_tag('edit.png'),
+                    project_issue_todo_list_item_path(@project, @todo_list, item),
+                    :data => {:id => item.id, :comment => item.comment},
+                    class: 'edit_item',
+                    :title => l(:issue_todo_label_edit_comment)
+        %>
+      </td>
+    <% end %>
     <% if User.current.allowed_to?(:remove_issue_todo_list_items, @project) %>
       <td>
         <%= link_to image_tag('link_break.png'),

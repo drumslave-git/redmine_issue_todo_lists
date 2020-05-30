@@ -1,9 +1,9 @@
-#issue-todo-list-table.sortable td {
+#issue-todo-list-table.sortable > tbody > tr > td {
     cursor: move;
 }
 
 /* Full line comment */
-#issue-todo-list-table td[colspan] {
+#issue-todo-list-table > tbody > tr > td[colspan] {
     text-align: left;
     padding-left: 10px;
 }
@@ -28,3 +28,11 @@
     border-radius: 2px;
     height: 1.5em;
 }
+
+#update_issue_todo_list_items_wrapper{
+    display: none;
+}
+
+/*#issue-todo-list-table .ui-sortable-helper{*/
+/*    opacity: 0.3;*/
+/*}*/

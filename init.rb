@@ -2,12 +2,12 @@ require 'redmine'
 require_dependency 'redmine_issue_todo_lists/hooks'
 
 Redmine::Plugin.register :redmine_issue_todo_lists do
-  name 'Issue To-do Lists Plugin'
-  author 'Den'
+  name 'Issue To-do Lists Plugin Extended'
+  author 'Den, extended by drumslave'
   description 'Organize issues in to-do lists by manually ordering their priority'
-  version '1.3'
-  url 'https://github.com/canidas/redmine_issue_todo_lists'
-  author_url 'mailto:dev@den.cx'
+  version '1.3.1'
+  url 'https://github.com/drumslave-git/redmine_issue_todo_lists'
+  author_url 'mailto:dev@den.cx, george.tislenko@gmail.com'
 
   project_module :issue_todo_lists do
     permission :add_issue_todo_lists, {:issue_todo_lists => [:new, :create]}
@@ -17,6 +17,7 @@ Redmine::Plugin.register :redmine_issue_todo_lists do
     permission :add_issue_todo_list_items, {:issue_todo_list_items => [:create]}
     permission :order_issue_todo_list_items, {:issue_todo_lists => [:update_item_order]}
     permission :remove_issue_todo_list_items, {:issue_todo_list_items => [:destroy]}
+    permission :update_issue_todo_list_items, {:issue_todo_list_items => [:update, :show]}
     permission :add_issue_todo_list_items_context_menu, {:issue_todo_lists => [:bulk_allocate_issues]}
   end
 

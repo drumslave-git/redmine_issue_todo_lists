@@ -10,22 +10,26 @@
 </div>
 <h2><%= title %></h2>
 <div class="splitcontentleft">
-  <p><%= textilizable(@todo_list, :description) %></p>
+  <div class="wiki"><%= textilizable(@todo_list, :description) %></div>
 </div>
 <div class="splitcontentright">
   <div class="box" id="show-right-box">
     <%= render :partial => 'issue_todo_lists/show/right_box' %>
   </div>
 </div>
-<div class="autoscroll" style="clear: both">
+<div style="clear: both">
   <table id="issue-todo-list-table" class="list <%= 'sortable' if User.current.allowed_to?(:order_issue_todo_list_items, @project) %>">
     <thead>
     <tr>
+      <th><%= l(:issue_todo_label_order) %></th>
       <% @issue_query.columns.each do |column| %>
         <th><%= column.caption %></th>
       <% end %>
+      <th><%= l(:label_comment) %></th>
+      <% if User.current.allowed_to?(:update_issue_todo_list_items, @project) %>
+        <th></th>
+      <% end %>
       <% if User.current.allowed_to?(:remove_issue_todo_list_items, @project) %>
-        <th><%= l(:label_comment) %></th>
         <th></th>
       <% end %>
     </tr>
@@ -46,7 +50,17 @@
     <%= l(:label_issue) %> #<%= f.text_field :issue_id, :size => 10 %>
     <%= javascript_tag "observeAutocompleteField('item_issue_id', '#{escape_javascript auto_complete_issues_path(:project_id => @project, :scope => (Setting.cross_project_issue_relations? ? 'all' : nil))}')" %>
     <%= l(:label_comment) %> <%= f.text_field :comment %>
+    <%= f.button :add %>
     <%# Hidden by CSS; Needed for submit by enter as this does not work anymore with more than one form field %>
     <input type="submit">
   <% end %>
+<% end %>
+<% if User.current.allowed_to?(:update_issue_todo_list_items, @project) %>
+  <div class="box tabular" id="update_issue_todo_list_items_wrapper">
+    <%= form_tag('', method: :put, id: 'update_issue_todo_list_items', remote: true) do %>
+      <div><%= l(:label_comment) %> <%= text_area_tag 'update_issue_todo_list_items_comment', nil, name: 'item[comment]', required: true, rows: 8, class: 'wiki-edit' %></div>
+      <%= submit_tag l(:button_save) %>
+    <% end %>
+    <%= wikitoolbar_for 'update_issue_todo_list_items_comment', preview_issue_path(:project_id => @project.id, :id => 'new') %>
+  </div>
 <% end %>
