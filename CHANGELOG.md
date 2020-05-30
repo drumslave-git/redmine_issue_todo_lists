@@ -6,6 +6,7 @@
 * changes to init.rb
 * added wiki toolbar to todo list description
 * modifications of sortable behavior
+* remove autoscroll for table wrapper
 * added "Add" button for items (just in case)
 * added possibility to edit item comment
 * added "Order" column to table
