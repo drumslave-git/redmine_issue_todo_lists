@@ -8,6 +8,6 @@
 * modifications of sortable behavior
 * remove autoscroll for table wrapper
 * added "Add" button for items (just in case)
-* added possibility to edit item comment
+* added possibility to edit item comment with wiki toolbar
 * added "Order" column to table
 * new permission "update items"
