@@ -24,12 +24,7 @@ Redmine::Plugin.register :redmine_issue_todo_lists do
   menu :project_menu, :issue_todo_lists, { :controller => 'issue_todo_lists', :action => 'index' }, :caption => :issue_todo_lists_title, :param => :project_id, :after => :activity
 
   Rails.configuration.to_prepare do
-    unless Project.included_modules.include? RedmineIssueTodoLists::ProjectPatch
-      Project.send(:include, RedmineIssueTodoLists::ProjectPatch)
-    end
-
-    unless Issue.included_modules.include? RedmineIssueTodoLists::IssuePatch
-      Issue.send(:include, RedmineIssueTodoLists::IssuePatch)
-    end
+    Project.send(:include, RedmineIssueTodoLists::ProjectPatch)
+    Issue.send(:include, RedmineIssueTodoLists::IssuePatch)
   end
 end
