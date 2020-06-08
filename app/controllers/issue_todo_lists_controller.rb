@@ -9,6 +9,7 @@ class IssueTodoListsController < ApplicationController
 
   def new
     @todo_list = IssueTodoList.new
+    @issue_query = IssueQuery.new
     respond_to do |format|
       format.html { render 'form' }
     end
@@ -18,6 +19,7 @@ class IssueTodoListsController < ApplicationController
     @todo_list = IssueTodoList.new(issue_todo_list_params)
     @todo_list.project_id = @project.id
     @todo_list.created_by = User.current
+
     if @todo_list.save
       respond_to do |format|
         format.html {
@@ -38,6 +40,7 @@ class IssueTodoListsController < ApplicationController
   end
 
   def edit
+    @issue_query = IssueQuery.new
     respond_to do |format|
       format.html { render 'form' }
     end
@@ -128,7 +131,7 @@ class IssueTodoListsController < ApplicationController
 
   def issue_todo_list_params
     if Gem::Version.new(Rails::VERSION::STRING) >= Gem::Version.new('4.0.0')
-      params.require(:issue_todo_list).permit(:title, :description, :remove_closed_issues)
+      params.require(:issue_todo_list).permit(:title, :description, :remove_closed_issues, :included_columns => [], :included_fields => [])
     else
       params[:issue_todo_list]
     end

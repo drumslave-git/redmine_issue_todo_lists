@@ -30,6 +30,16 @@ class IssueTodoListItemsController < ApplicationController
     end
   end
 
+  def edit
+    respond_to do |format|
+      format.js {
+        @issue_query = IssueQuery.new
+        @item = IssueTodoListItem.find(params[:id])
+        render :edit
+      }
+    end
+  end
+
   def show
     @item = IssueTodoListItem.find(params[:id])
 
@@ -55,9 +65,18 @@ class IssueTodoListItemsController < ApplicationController
   def update
     @item = IssueTodoListItem.find(params[:id])
     @item.comment = params[:item][:comment]
+    data = []
+    if params[:item][:data]
+      params[:item][:data].each do |dataItem|
+        data.push({field: dataItem[:field].to_s, value: dataItem[:value].to_s})
+      end
+    end
+    @item.data = data
     @item.save
     find_todo_list # Refresh last updated box
 
+    # render :plain => @item.inspect
+    # render :plain => params.inspect
     respond_to do |format|
       format.js {
         @todo_list_items = @todo_list.issue_todo_list_items

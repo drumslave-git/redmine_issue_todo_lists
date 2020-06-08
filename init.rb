@@ -17,7 +17,7 @@ Redmine::Plugin.register :redmine_issue_todo_lists do
     permission :add_issue_todo_list_items, {:issue_todo_list_items => [:create]}
     permission :order_issue_todo_list_items, {:issue_todo_lists => [:update_item_order]}
     permission :remove_issue_todo_list_items, {:issue_todo_list_items => [:destroy]}
-    permission :update_issue_todo_list_items, {:issue_todo_list_items => [:update, :show]}
+    permission :update_issue_todo_list_items, {:issue_todo_list_items => [:update, :show, :edit]}
     permission :add_issue_todo_list_items_context_menu, {:issue_todo_lists => [:bulk_allocate_issues]}
   end
 

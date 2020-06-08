@@ -22,7 +22,12 @@
     <thead>
     <tr>
       <th><%= l(:issue_todo_label_order) %></th>
-      <% @issue_query.columns.each do |column| %>
+      <% if @todo_list.included_columns.count > 0 %>
+        <% issue_columns = @issue_query.available_columns.select {|column| @todo_list.included_columns.include?(column.name.to_s)} %>
+      <% else %>
+        <% issue_columns = @issue_query.available_columns.select {|column| @issue_query.columns.include?(column)} %>
+      <% end %>
+      <% issue_columns.each do |column| %>
         <th><%= column.caption %></th>
       <% end %>
       <th><%= l(:label_comment) %></th>
@@ -39,28 +44,28 @@
     </tbody>
   </table>
 </div>
-<% if User.current.allowed_to?(:add_issue_todo_list_items, @project) %>
-  <h3><%= l(:issue_todo_lists_add_issue) %></h3>
-  <%= form_for IssueTodoListItem.new, {
-                                        :as => :item, :remote => true,
-                                        :url => project_issue_todo_list_items_path(@project, @todo_list),
-                                        :html => {:id => 'new-item-form'}
-                                    } do |f| %>
-    <div class="errors"></div>
-    <%= l(:label_issue) %> #<%= f.text_field :issue_id, :size => 10 %>
-    <%= javascript_tag "observeAutocompleteField('item_issue_id', '#{escape_javascript auto_complete_issues_path(:project_id => @project, :scope => (Setting.cross_project_issue_relations? ? 'all' : nil))}')" %>
-    <%= l(:label_comment) %> <%= f.text_field :comment %>
-    <%= f.button :add %>
-    <%# Hidden by CSS; Needed for submit by enter as this does not work anymore with more than one form field %>
-    <input type="submit">
-  <% end %>
-<% end %>
 <% if User.current.allowed_to?(:update_issue_todo_list_items, @project) %>
-  <div class="box tabular" id="update_issue_todo_list_items_wrapper">
-    <%= form_tag('', method: :put, id: 'update_issue_todo_list_items', remote: true) do %>
-      <div><%= l(:label_comment) %> <%= text_area_tag 'update_issue_todo_list_items_comment', nil, name: 'item[comment]', required: true, rows: 8, class: 'wiki-edit' %></div>
-      <%= submit_tag l(:button_save) %>
-    <% end %>
-    <%= wikitoolbar_for 'update_issue_todo_list_items_comment', preview_issue_path(:project_id => @project.id, :id => 'new') %>
+  <div id="update_issue_todo_list_items_wrapper">
   </div>
 <% end %>
+<% if User.current.allowed_to?(:add_issue_todo_list_items, @project) %>
+  <h3><%= l(:issue_todo_lists_add_issue) %></h3>
+  <div class="box tabular">
+    <%= form_for IssueTodoListItem.new, {
+                                          :as => :item, :remote => true,
+                                          :url => project_issue_todo_list_items_path(@project, @todo_list),
+                                          :html => {:id => 'new-item-form'}
+                                      } do |f| %>
+      <div class="errors"></div>
+      <p>
+        <%= f.label :issue_id, l(:label_issue) %> #<%= f.text_field :issue_id, :size => 10 %>
+      </p>
+      <%= javascript_tag "observeAutocompleteField('item_issue_id', '#{escape_javascript auto_complete_issues_path(:project_id => @project, :scope => (Setting.cross_project_issue_relations? ? 'all' : nil))}')" %>
+      <p>
+        <%= f.label :comment, l(:label_comment) %> <%= f.text_area :comment, :rows => 8, :class => 'wiki-edit' %>
+      </p>
+      <p><%= f.submit :add %></p>
+    <% end %>
+  </div>
+<% end %>
+<%= wikitoolbar_for 'item_comment' %>
