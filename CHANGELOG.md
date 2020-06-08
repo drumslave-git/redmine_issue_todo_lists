@@ -1,5 +1,15 @@
 # CHANGELOG
 
+### 1.3.2
+
+* allow configuration of issue columns per todo list
+* added functionality to include issue columns for text items
+* wiki toolbar for new items
+* show text item field editor as date in case column name contains `date` word
+* refactoring of item editing functionality
+* added ginstr credits
+* DB MIGRATION IS REQUIRED FOR THIS VERSION (to 7) 
+
 ### 1.3.1
 
 * first extended version

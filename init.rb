@@ -3,9 +3,9 @@ require_dependency 'redmine_issue_todo_lists/hooks'
 
 Redmine::Plugin.register :redmine_issue_todo_lists do
   name 'Issue To-do Lists Plugin Extended'
-  author 'Den, extended by drumslave'
+  author 'Den, extended by drumslave - sponsored by ginstr.com'
   description 'Organize issues in to-do lists by manually ordering their priority'
-  version '1.3.1'
+  version '1.3.2'
   url 'https://github.com/drumslave-git/redmine_issue_todo_lists'
   author_url 'mailto:dev@den.cx, george.tislenko@gmail.com'
 
